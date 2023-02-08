@@ -92,7 +92,7 @@
       "properties": {
         "enableTunneling": false,
         "enableIpconnect": false,
-        "disableCopyPast": false,
+        "disableCopyPaste": false,
         "enableShareableLink": false,
         "ipConfigurations": [
           {
