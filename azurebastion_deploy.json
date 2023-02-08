@@ -26,8 +26,8 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Bastion/bastionHosts",
-      "apiVersion": "2021-01-01",
+      "type": "Microsoft.Network/bastionHosts",
+      "apiVersion": "2022-07-01",
       "name": "[parameters('bastionName')]",
       "location": "australia southeast",
       "properties": {
