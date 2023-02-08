@@ -29,6 +29,7 @@
     },
     "bastionHostName": {
       "type": "string",
+      "defaultValue": "ASR-Bastion",
       "metadata": {
         "description": "Name of Azure Bastion resource"
       }
