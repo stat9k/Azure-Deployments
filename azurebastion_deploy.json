@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "bastionName": {
+      "type": "string",
+      "defaultValue": "bastion-asr-test",
+      "metadata": {
+        "description": "Name of the Azure Bastion resource."
+      }
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "bastion_asr_vnet_devops_test",
+      "metadata": {
+        "description": "Name of the Virtual Network where Azure Bastion will be deployed."
+      }
+    },
+    "subnetName": {
+      "type": "string",
+      "defaultValue": "AzureBastionSubnet",
+      "metadata": {
+        "description": "Name of the subnet where Azure Bastion will be deployed."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Bastion/bastionHosts",
+      "apiVersion": "2021-01-01",
+      "name": "[parameters('bastionName')]",
+      "location": "australia southeast",
+      "properties": {
+        "virtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+        },
+        "subnetName": "[parameters('subnetName')]"
+      }
+    }
+  ]
+}
