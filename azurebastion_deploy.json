@@ -60,7 +60,7 @@
       }
     },
     {
-      "condition": "[equals(parameters('vnetNewOrExisting'), 'existing')]",
+      "condition": "[equals(parameters('vnetNewOrExisting'), 'new')]",
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2022-07-01",
       "name": "[parameters('vnetName')]",
@@ -82,20 +82,18 @@
       }
     },
     {
-      "condition": "[equals(parameters('vnetNewOrExisting'), 'existing')]",
-      "type": "Microsoft.Network/virtualNetworks/subnets",
-      "apiVersion": "2022-07-01",
-      "name": "[format('{0}/{1}', parameters('vnetName'), variables('bastionSubnetName'))]",
-      "properties": {
-        "addressPrefix": "[parameters('bastionSubnetIpPrefix')]"
-      }
-    },
-    {
       "type": "Microsoft.Network/bastionHosts",
       "apiVersion": "2022-07-01",
       "name": "[parameters('bastionHostName')]",
       "location": "[parameters('location')]",
+      "sku": {
+        "name": "Basic"
+      },
       "properties": {
+        "enableTunneling": false,
+        "enableIpconnect": false,
+        "disableCopyPast": false,
+        "enableShareableLink": false,
         "ipConfigurations": [
           {
             "name": "IpConf",
@@ -103,18 +101,14 @@
               "subnet": {
                 "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), variables('bastionSubnetName'))]"
               },
+              "pirvateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]"
               }
             }
           }
         ]
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
-        "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), variables('bastionSubnetName'))]"
-      ]
+      }
     }
   ]
 }
