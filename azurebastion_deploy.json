@@ -44,8 +44,7 @@
   },
   "variables": {
     "publicIpAddressName": "[format('{0}-pip', parameters('bastionHostName'))]",
-    "bastionSubnetName": "AzureBastionSubnet",
-    "nsgName": "[format('{0}-nsg', parameters('bastionHostName'))]"
+    "bastionSubnetName": "AzureBastionSubnet"
   },
   "resources": [
     {
@@ -76,17 +75,11 @@
           {
             "name": "[variables('bastionSubnetName')]",
             "properties": {
-              "addressPrefix": "[parameters('bastionSubnetIpPrefix')]",
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
-              }
+              "addressPrefix": "[parameters('bastionSubnetIpPrefix')]"
             }
           }
         ]
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
-      ]
+      }
     },
     {
       "condition": "[equals(parameters('vnetNewOrExisting'), 'existing')]",
